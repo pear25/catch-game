@@ -1,5 +1,6 @@
 import { FullScreenLayout } from '../layouts/FullScreen.layout';
 import { GameState, useGameSliceState } from '../store/global.store';
+import { InGame } from './InGame.pages';
 import { Leaderboard } from './Leaderboard.pages';
 import { MainMenu } from './MainMenu.pages';
 
@@ -13,7 +14,7 @@ export const UIView = () => {
     case GameState.MAIN_MENU:
       return wrapInFullScreenLayout(<MainMenu />);
     case GameState.IN_GAME:
-      return wrapInFullScreenLayout(<div>Game</div>);
+      return wrapInFullScreenLayout(<InGame />);
     case GameState.GAME_OVER:
       return wrapInFullScreenLayout(<div>Game Over</div>);
     case GameState.LEADERBOARD:
