@@ -1,0 +1,2 @@
+export const BASE_PIRATE_SPAWN_TIME = 1000;
+export const RANDOM_PIRATE_SPAWN_TIME = 2000;

@@ -5,7 +5,7 @@ import { GameState, useGameSliceState } from '../store/global.store';
 export const MainMenu = () => {
   const gameSlice = useGameSliceState();
   const [allowAudio, setAllowAudio] = useState(false);
-  const audio = new Audio('/public/audio/main-menu.mp3');
+  const audio = new Audio('/audio/main-menu.mp3');
 
   useEffect(() => {
     if (allowAudio) {

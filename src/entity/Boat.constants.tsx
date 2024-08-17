@@ -8,8 +8,8 @@ export const MAX_SPEED = 8.5;
 export const SCREEN_WIDTH = window.innerWidth;
 export const SCREEN_HEIGHT = window.innerHeight;
 export const Y_POSITION = SCREEN_HEIGHT - BOAT_HEIGHT - DISTANCE_FROM_BOTTOM;
-export const INITIAL_POSITION = SCREEN_WIDTH / 2 - BOAT_WIDTH;
-export const BOAT_IMAGE = '';
+export const INITIAL_POSITION = (SCREEN_WIDTH - BOAT_WIDTH) / 2;
+export const BOAT_IMAGE = '/images/boat.png';
 
 export enum MovementKeys {
   ARROW_LEFT = 'ArrowLeft',

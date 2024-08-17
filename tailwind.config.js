@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'main-menu': "url('./public/images/bg1.png')",
-        boat: "url('./public/images/boat.png')",
-        'sandbox-pic': "url('./public/images/bg2.png')",
+        'main-menu': "url('./images/bg1.png')",
+        boat: "url('./images/boat.png')",
+        'sandbox-pic': "url('./images/bg2.png')",
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],

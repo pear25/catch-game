@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import {
   ACCELERATION_RATE,
   BOAT_HEIGHT,
+  BOAT_IMAGE,
   BOAT_WIDTH,
   BoatDirection,
   DECELERATION_RATE,
@@ -11,9 +12,31 @@ import {
   SCREEN_WIDTH,
   Y_POSITION,
 } from './Boat.constants';
+import {
+  SPRITES_LENGTH,
+  SPRITES_LIST,
+  SPRITE_HEIGHT,
+  SPRITE_SPEED,
+  SPRITE_WIDTH,
+  TOP_OF_SCREEN,
+} from './Pirate.constants';
+import {
+  BASE_PIRATE_SPAWN_TIME,
+  RANDOM_PIRATE_SPAWN_TIME,
+} from './Game.constants';
 
-export const Boat = () => {
+type PirateType = {
+  x: number;
+  y: number;
+  speed: number;
+  width: number;
+  height: number;
+  image: HTMLImageElement;
+};
+
+export const Game = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sprites = useRef<PirateType[]>([]);
   const pos = useRef(INITIAL_POSITION);
   const direction = useRef(0);
   const speed = useRef(0);
@@ -22,8 +45,8 @@ export const Boat = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas && canvas.getContext('2d');
-    const img = new Image();
-    img.src = '/public/images/boat.png';
+    const boatSprite = new Image();
+    boatSprite.src = BOAT_IMAGE;
 
     if (!canvas || !context || !pos) {
       return;
@@ -33,26 +56,25 @@ export const Boat = () => {
       context.save();
       if (lastPressed.current === BoatDirection.NONE) {
         context.drawImage(
-          img,
+          boatSprite,
           pos.current,
           Y_POSITION,
           BOAT_WIDTH,
           BOAT_HEIGHT
         );
-      }
-      if (lastPressed.current === BoatDirection.LEFT) {
+      } else if (lastPressed.current === BoatDirection.LEFT) {
         context.scale(-1, 1);
         context.drawImage(
-          img,
+          boatSprite,
           -pos.current - BOAT_WIDTH,
           Y_POSITION,
           BOAT_WIDTH,
           BOAT_HEIGHT
         );
-      } else if (lastPressed.current === BoatDirection.RIGHT) {
+      } else {
         context.scale(1, 1);
         context.drawImage(
-          img,
+          boatSprite,
           pos.current,
           Y_POSITION,
           BOAT_WIDTH,
@@ -62,9 +84,7 @@ export const Boat = () => {
       context.restore();
     };
 
-    img.onload = () => {
-      renderImage();
-    };
+    boatSprite.onload = () => renderImage();
 
     const handleStartBoatMovement = (event: KeyboardEvent) => {
       switch (event.key) {
@@ -89,6 +109,7 @@ export const Boat = () => {
 
     const gameLoop = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
+
       const LEFT_BOUNDARY = 0;
       const RIGHT_BOUNDARY = canvas.width - BOAT_WIDTH;
 
@@ -115,9 +136,53 @@ export const Boat = () => {
       }
       pos.current += direction.current * speed.current;
 
+      sprites.current.forEach((sprite, i) => {
+        context.drawImage(
+          sprite.image,
+          sprite.x,
+          sprite.y,
+          sprite.width,
+          sprite.height
+        );
+
+        sprite.y += sprite.speed;
+
+        const isCollidingWithBoat =
+          sprite.x < pos.current + BOAT_WIDTH &&
+          sprite.x + sprite.width > pos.current &&
+          sprite.y < Y_POSITION + BOAT_HEIGHT &&
+          sprite.y + sprite.height > Y_POSITION;
+
+        if (isCollidingWithBoat) {
+          sprites.current.splice(i, 1);
+
+          // TODO: Add score logic here.
+          console.log(`Collision detected with sprite ${sprite.image.src}`);
+        }
+
+        if (sprite.y >= canvas.height) {
+          sprites.current.splice(i, 1);
+        }
+      });
+
       renderImage();
       requestAnimationFrame(gameLoop);
     };
+
+    setInterval(() => {
+      const sprite = {
+        x: Math.random() * canvas.width,
+        y: TOP_OF_SCREEN,
+        speed: SPRITE_SPEED,
+        width: SPRITE_WIDTH,
+        height: SPRITE_HEIGHT,
+        image: new Image(),
+      };
+      sprite.image.src =
+        Object.keys(SPRITES_LIST)[Math.floor(Math.random() * SPRITES_LENGTH)];
+
+      sprites.current.push(sprite);
+    }, Math.random() * RANDOM_PIRATE_SPAWN_TIME + BASE_PIRATE_SPAWN_TIME);
 
     window.addEventListener('keydown', handleStartBoatMovement);
     window.addEventListener('keyup', handleStopBoatMovement);

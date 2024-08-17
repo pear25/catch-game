@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
-import { Boat } from '../entity/Boat';
+import { Game } from '../entity/Game';
 
 export const InGame = () => {
-  const audio = new Audio('/public/audio/game-start.mp3');
+  const audio = new Audio('/audio/game-start.mp3');
 
   useEffect(() => {
     audio.play();
   }, []);
 
-  return (
-    <div className="boat overflow-y-hidden">
-      <Boat />
-    </div>
-  );
+  return <Game />;
 };
