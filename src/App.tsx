@@ -1,20 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { UIView } from './pages/index.pages';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div className='flex flex-col gap-4'>
-        SandboxVR Game
-        <button className='rounded-lg'>Start Game</button>
-        <button>Leaderboard</button>
-      </div>
+      <UIView />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
