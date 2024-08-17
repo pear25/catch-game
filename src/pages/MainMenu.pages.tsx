@@ -16,7 +16,12 @@ export const MainMenu = () => {
         >
           Start Game
         </button>
-        <button className="p-3 px-4 rounded-lg">Leaderboard</button>
+        <button
+          className="p-3 px-4 rounded-lg"
+          onClick={() => gameSlice.setGameState(GameState.LEADERBOARD)}
+        >
+          Leaderboard
+        </button>
         <button onClick={() => gameSlice.setGameState(GameState.IN_GAME)}>
           Change game state
         </button>
