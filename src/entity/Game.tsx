@@ -18,12 +18,18 @@ import {
   SPRITE_HEIGHT,
   SPRITE_SPEED,
   SPRITE_WIDTH,
+  Sprite,
   TOP_OF_SCREEN,
 } from './Pirate.constants';
 import {
   BASE_PIRATE_SPAWN_TIME,
+  ENEMY_SCORE,
+  MINUS_AUDIO,
+  PIRATE_SCORE,
+  PLUS_AUDIO,
   RANDOM_PIRATE_SPAWN_TIME,
 } from './Game.constants';
+import { useScoreSliceState } from '../store/score.store';
 
 type PirateType = {
   x: number;
@@ -32,15 +38,22 @@ type PirateType = {
   width: number;
   height: number;
   image: HTMLImageElement;
+  type: Sprite.PIRATE | Sprite.ENEMY;
 };
 
 export const Game = () => {
+  const scoreSlice = useScoreSliceState();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sprites = useRef<PirateType[]>([]);
   const pos = useRef(INITIAL_POSITION);
   const direction = useRef(0);
   const speed = useRef(0);
   const lastPressed = useRef(BoatDirection.NONE);
+
+  const playAudio = (audioUrl: string) => {
+    const audio = new Audio(audioUrl);
+    audio.play();
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -155,9 +168,14 @@ export const Game = () => {
 
         if (isCollidingWithBoat) {
           sprites.current.splice(i, 1);
-
-          // TODO: Add score logic here.
-          console.log(`Collision detected with sprite ${sprite.image.src}`);
+          if (sprite.type === Sprite.PIRATE) {
+            playAudio(PLUS_AUDIO);
+            scoreSlice.setScore(scoreSlice.score + PIRATE_SCORE);
+          }
+          if (sprite.type === Sprite.ENEMY) {
+            playAudio(MINUS_AUDIO);
+            scoreSlice.setScore(scoreSlice.score + ENEMY_SCORE);
+          }
         }
 
         if (sprite.y >= canvas.height) {
@@ -171,15 +189,18 @@ export const Game = () => {
 
     setInterval(() => {
       const sprite = {
-        x: Math.random() * canvas.width,
+        x: Math.random() * canvas.width - SPRITE_WIDTH,
         y: TOP_OF_SCREEN,
         speed: SPRITE_SPEED,
         width: SPRITE_WIDTH,
         height: SPRITE_HEIGHT,
         image: new Image(),
+        type: Sprite.PIRATE,
       };
-      sprite.image.src =
+      const selectedSprite =
         Object.keys(SPRITES_LIST)[Math.floor(Math.random() * SPRITES_LENGTH)];
+      sprite.image.src = selectedSprite;
+      sprite.type = SPRITES_LIST[selectedSprite];
 
       sprites.current.push(sprite);
     }, Math.random() * RANDOM_PIRATE_SPAWN_TIME + BASE_PIRATE_SPAWN_TIME);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FullScreenLayout } from '../layouts/FullScreen.layout';
-import { GameState, useGameSliceState } from '../store/global.store';
+import { GameState, useGameSliceState } from '../store/game.store';
 
 export const MainMenu = () => {
   const gameSlice = useGameSliceState();

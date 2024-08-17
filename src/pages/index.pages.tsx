@@ -1,5 +1,5 @@
 import { FullScreenLayout } from '../layouts/FullScreen.layout';
-import { GameState, useGameSliceState } from '../store/global.store';
+import { GameState, useGameSliceState } from '../store/game.store';
 import { InGame } from './InGame.pages';
 import { Leaderboard } from './Leaderboard.pages';
 import { MainMenu } from './MainMenu.pages';

@@ -1,4 +1,4 @@
-enum Sprite {
+export enum Sprite {
   PIRATE = 'pirate',
   ENEMY = 'enemy',
 }
