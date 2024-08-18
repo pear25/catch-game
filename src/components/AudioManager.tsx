@@ -20,7 +20,11 @@ export const AudioManager = () => {
       className="absolute top-0.5 right-1 p-4 bg-transparent"
       onClick={() => setAllowAudio((prev) => !prev)}
     >
-      {allowAudio ? <AiFillSound /> : <AiFillMuted />}
+      {allowAudio ? (
+        <AiFillSound className="fill-black" />
+      ) : (
+        <AiFillMuted className="fill-black" />
+      )}
     </button>
   );
 };
