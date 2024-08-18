@@ -11,7 +11,7 @@ import {
   MovementKeys,
   SCREEN_WIDTH,
   Y_POSITION,
-} from './Boat.constants';
+} from '../constants/Boat.constants';
 import {
   SPRITES_LENGTH,
   SPRITES_LIST,
@@ -20,7 +20,7 @@ import {
   SPRITE_WIDTH,
   Sprite,
   TOP_OF_SCREEN,
-} from './Pirate.constants';
+} from '../constants/Pirate.constants';
 import {
   BASE_PIRATE_SPAWN_TIME,
   ENEMY_SCORE,
@@ -28,8 +28,10 @@ import {
   PIRATE_SCORE,
   PLUS_AUDIO,
   RANDOM_PIRATE_SPAWN_TIME,
-} from './Game.constants';
-import { useScoreSliceState } from '../store/score.store';
+} from '../constants/Game.constants';
+import { useScoreSlice } from '../store/score.store';
+import { useGameSlice } from '../store/game.store';
+import { ScreenState, useScreenSlice } from '../store/screen.store';
 
 type PirateType = {
   x: number;
@@ -42,9 +44,14 @@ type PirateType = {
 };
 
 export const Game = () => {
-  const scoreSlice = useScoreSliceState();
+  const scoreSlice = useScoreSlice();
+  const gameSlice = useGameSlice();
+  const screenSlice = useScreenSlice();
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sprites = useRef<PirateType[]>([]);
+  const animationRef = useRef<number>(0);
+  const loopRef = useRef<number>(0);
   const pos = useRef(INITIAL_POSITION);
   const direction = useRef(0);
   const speed = useRef(0);
@@ -121,6 +128,12 @@ export const Game = () => {
     };
 
     const gameLoop = () => {
+      if (gameSlice.isGameOver) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        cancelAnimationFrame(loopRef.current);
+        cancelAnimationFrame(animationRef.current);
+        return;
+      }
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       const LEFT_BOUNDARY = 0;
@@ -184,8 +197,10 @@ export const Game = () => {
       });
 
       renderImage();
-      requestAnimationFrame(gameLoop);
+      loopRef.current = requestAnimationFrame(gameLoop);
     };
+
+    animationRef.current = requestAnimationFrame(gameLoop);
 
     setInterval(() => {
       const sprite = {
@@ -207,14 +222,29 @@ export const Game = () => {
 
     window.addEventListener('keydown', handleStartBoatMovement);
     window.addEventListener('keyup', handleStopBoatMovement);
-    requestAnimationFrame(gameLoop);
+
     return () => {
+      cancelAnimationFrame(animationRef.current);
+      cancelAnimationFrame(loopRef.current);
       window.removeEventListener('keydown', handleStartBoatMovement);
       window.removeEventListener('keyup', handleStopBoatMovement);
     };
-  }, []);
+  }, [gameSlice.isGameOver]);
+
+  useEffect(() => {
+    if (gameSlice.gameTimer === 0) {
+      gameSlice.setGameOver(true);
+      screenSlice.setScreenState(ScreenState.GAME_OVER);
+      gameSlice.resetTimer();
+    }
+  }, [gameSlice.gameTimer]);
 
   return (
-    <canvas ref={canvasRef} width={SCREEN_WIDTH} height={window.innerHeight} />
+    <canvas
+      id={'gameCanvas'}
+      ref={canvasRef}
+      width={SCREEN_WIDTH}
+      height={window.innerHeight}
+    />
   );
 };

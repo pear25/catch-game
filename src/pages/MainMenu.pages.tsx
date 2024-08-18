@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FullScreenLayout } from '../layouts/FullScreen.layout';
-import { GameState, useGameSliceState } from '../store/game.store';
+import { ScreenState, useScreenSlice } from '../store/screen.store';
 
 export const MainMenu = () => {
-  const gameSlice = useGameSliceState();
+  const screenState = useScreenSlice();
   const [allowAudio, setAllowAudio] = useState(false);
   const audio = new Audio('/audio/main-menu.mp3');
 
@@ -21,17 +21,17 @@ export const MainMenu = () => {
         </div>
         <button
           className="p-3 px-4 rounded-lg"
-          onClick={() => gameSlice.setGameState(GameState.IN_GAME)}
+          onClick={() => screenState.setScreenState(ScreenState.IN_GAME)}
         >
           Start Game
         </button>
         <button
           className="p-3 px-4 rounded-lg"
-          onClick={() => gameSlice.setGameState(GameState.LEADERBOARD)}
+          onClick={() => screenState.setScreenState(ScreenState.LEADERBOARD)}
         >
           Leaderboard
         </button>
-        <button onClick={() => gameSlice.setGameState(GameState.IN_GAME)}>
+        <button onClick={() => screenState.setScreenState(ScreenState.IN_GAME)}>
           Change game state
         </button>
         <button

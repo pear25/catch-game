@@ -1,2 +1,2 @@
-export * from './game.store';
+export * from './screen.store';
 export * from './score.store';
