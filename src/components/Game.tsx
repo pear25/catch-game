@@ -257,7 +257,7 @@ export const Game = () => {
   }, [screenWidth]);
 
   useEffect(() => {
-    if (gameSlice.gameTimer === 59) {
+    if (gameSlice.gameTimer === 0) {
       gameSlice.setGameOver(true);
       screenSlice.setScreenState(ScreenState.GAME_OVER);
       gameSlice.resetTimer();
