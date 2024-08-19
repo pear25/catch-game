@@ -33,10 +33,11 @@ export const useUserScoreForm = () => {
     });
   };
 
-  const { mutateAsync: postUserScore } = usePostUserScore(onSuccess, onError);
+  const { mutateAsync: postUserScore, isLoading: isLoadingPost } =
+    usePostUserScore(onSuccess, onError);
 
   const onSubmit = handleSubmit(async () => {
     void postUserScore(getValues());
   });
-  return { register, errors, onSubmit };
+  return { register, errors, onSubmit, isLoadingPost };
 };

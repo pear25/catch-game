@@ -6,8 +6,12 @@ export const ACCELERATION_RATE = 0.038;
 export const DECELERATION_RATE = 0.07;
 export const MAX_SPEED = 8.5;
 export const SCREEN_WIDTH = window.innerWidth;
+export const BASELINE_SCREEN_WIDTH = 1520;
 export const SCREEN_HEIGHT = window.innerHeight;
 export const Y_POSITION = SCREEN_HEIGHT - BOAT_HEIGHT - DISTANCE_FROM_BOTTOM;
+export const SCALED_DISTANCE_FROM_BOTTOM = DISTANCE_FROM_BOTTOM * 0.5;
+export const SCALED_Y_POSITION =
+  SCREEN_HEIGHT - BOAT_HEIGHT - SCALED_DISTANCE_FROM_BOTTOM;
 export const INITIAL_POSITION = (SCREEN_WIDTH - BOAT_WIDTH) / 2;
 export const BOAT_IMAGE = '/images/boat.png';
 

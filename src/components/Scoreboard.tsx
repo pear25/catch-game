@@ -17,7 +17,7 @@ export const Scoreboard = () => {
   });
 
   return (
-    <div className="absolute bottom-1 right-2 rounded-lg bg-slate-600 p-4">
+    <div className="absolute bottom-1 right-2 rounded-lg bg-slate-600 p-4 backdrop-blur-md opacity-45">
       Score: {scoreSlice.score} Time: {gameSlice.gameTimer}
     </div>
   );

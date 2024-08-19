@@ -1,8 +1,13 @@
+import { Button } from '../components/Button';
 import { FullScreenLayout } from '../layouts/FullScreen.layout';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
 
 export const MainMenu = () => {
-  const screenState = useScreenSlice();
+  const screenSlice = useScreenSlice();
+
+  const changeScreen = (newScreen: ScreenState) => {
+    screenSlice.setScreenState(newScreen);
+  };
 
   return (
     <FullScreenLayout>
@@ -10,18 +15,15 @@ export const MainMenu = () => {
         <div className="mb-8">
           <h1 className="font-jersey">SandboxVR Game</h1>
         </div>
-        <button
-          className="p-3 px-4 rounded-lg"
-          onClick={() => screenState.setScreenState(ScreenState.IN_GAME)}
-        >
-          Start Game
-        </button>
-        <button
-          className="p-3 px-4 rounded-lg"
-          onClick={() => screenState.setScreenState(ScreenState.LEADERBOARD)}
-        >
-          Leaderboard
-        </button>
+        <Button
+          text={'Start Game'}
+          onClick={() => changeScreen(ScreenState.IN_GAME)}
+        />
+        <Button
+          variant="secondary"
+          text={'Leaderboards'}
+          onClick={() => changeScreen(ScreenState.LEADERBOARD)}
+        />
       </div>
     </FullScreenLayout>
   );

@@ -22,6 +22,6 @@ export const UIView = () => {
       return wrapInFullScreenLayout(<Leaderboard />);
 
     default:
-      return <MainMenu />;
+      return wrapInFullScreenLayout(<MainMenu />);
   }
 };

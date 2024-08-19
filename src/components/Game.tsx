@@ -1,14 +1,18 @@
 import { useEffect, useRef } from 'react';
 import {
   ACCELERATION_RATE,
+  BASELINE_SCREEN_WIDTH,
   BOAT_HEIGHT,
   BOAT_IMAGE,
   BOAT_WIDTH,
   BoatDirection,
   DECELERATION_RATE,
+  DISTANCE_FROM_BOTTOM,
   INITIAL_POSITION,
   MAX_SPEED,
   MovementKeys,
+  SCALED_Y_POSITION,
+  SCREEN_HEIGHT,
   SCREEN_WIDTH,
   Y_POSITION,
 } from '../constants/Boat.constants';
@@ -32,6 +36,7 @@ import {
 import { useScoreSlice } from '../store/score.store';
 import { useGameSlice } from '../store/game.store';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
+import { useScreenWidth } from '../hooks/useGetScreenSize';
 
 type PirateType = {
   x: number;
@@ -48,6 +53,13 @@ export const Game = () => {
   const gameSlice = useGameSlice();
   const screenSlice = useScreenSlice();
 
+  const { screenWidth, screenScale, screenHeight } = useScreenWidth();
+  const screenWidthRef = useRef(screenWidth);
+  const screenScaleRef = useRef(screenScale);
+
+  const SCALE =
+    (screenWidthRef.current / BASELINE_SCREEN_WIDTH) * screenScaleRef.current;
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sprites = useRef<PirateType[]>([]);
   const animationRef = useRef<number>(0);
@@ -60,6 +72,18 @@ export const Game = () => {
   const playAudio = (audioUrl: string) => {
     const audio = new Audio(audioUrl);
     audio.play();
+  };
+
+  const initSprite = () => {
+    return {
+      x: Math.random() * screenWidthRef.current - SPRITE_WIDTH,
+      y: TOP_OF_SCREEN,
+      speed: SPRITE_SPEED * SCALE,
+      width: SPRITE_WIDTH * SCALE,
+      height: SPRITE_HEIGHT * SCALE,
+      image: new Image(),
+      type: Sprite.PIRATE,
+    };
   };
 
   useEffect(() => {
@@ -75,30 +99,32 @@ export const Game = () => {
     const renderImage = () => {
       context.save();
       if (lastPressed.current === BoatDirection.NONE) {
+        console.log(pos.current);
         context.drawImage(
           boatSprite,
-          pos.current,
-          Y_POSITION,
-          BOAT_WIDTH,
-          BOAT_HEIGHT
+          pos.current * SCALE,
+          SCALED_Y_POSITION,
+          BOAT_WIDTH * SCALE,
+          BOAT_HEIGHT * SCALE
         );
       } else if (lastPressed.current === BoatDirection.LEFT) {
+        console.log(pos.current);
         context.scale(-1, 1);
         context.drawImage(
           boatSprite,
-          -pos.current - BOAT_WIDTH,
-          Y_POSITION,
-          BOAT_WIDTH,
-          BOAT_HEIGHT
+          -pos.current * SCALE - BOAT_WIDTH * SCALE,
+          SCALED_Y_POSITION,
+          BOAT_WIDTH * SCALE,
+          BOAT_HEIGHT * SCALE
         );
       } else {
         context.scale(1, 1);
         context.drawImage(
           boatSprite,
-          pos.current,
-          Y_POSITION,
-          BOAT_WIDTH,
-          BOAT_HEIGHT
+          pos.current * SCALE,
+          SCALED_Y_POSITION,
+          BOAT_WIDTH * SCALE,
+          BOAT_HEIGHT * SCALE
         );
       }
       context.restore();
@@ -137,25 +163,25 @@ export const Game = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       const LEFT_BOUNDARY = 0;
-      const RIGHT_BOUNDARY = canvas.width - BOAT_WIDTH;
+      const RIGHT_BOUNDARY = screenWidthRef.current - BOAT_WIDTH * SCALE;
 
       const isHittingLeftBoundary =
         pos.current < LEFT_BOUNDARY && direction.current === BoatDirection.LEFT;
       const isHittingRightBoundary =
-        pos.current > RIGHT_BOUNDARY &&
+        pos.current * SCALE > RIGHT_BOUNDARY &&
         direction.current === BoatDirection.RIGHT;
 
       if (isHittingLeftBoundary) {
         pos.current = LEFT_BOUNDARY;
         speed.current = 0;
       } else if (isHittingRightBoundary) {
-        pos.current = RIGHT_BOUNDARY;
+        pos.current = pos.current;
         speed.current = 0;
       }
 
       if (direction.current !== BoatDirection.NONE) {
         if (speed.current < MAX_SPEED) {
-          speed.current += ACCELERATION_RATE;
+          speed.current += ACCELERATION_RATE * SCALE;
         }
       } else {
         speed.current *= DECELERATION_RATE;
@@ -174,10 +200,10 @@ export const Game = () => {
         sprite.y += sprite.speed;
 
         const isCollidingWithBoat =
-          sprite.x < pos.current + BOAT_WIDTH &&
-          sprite.x + sprite.width > pos.current &&
-          sprite.y < Y_POSITION + BOAT_HEIGHT &&
-          sprite.y + sprite.height > Y_POSITION;
+          sprite.x < pos.current * SCALE + BOAT_WIDTH * SCALE &&
+          sprite.x + sprite.width > pos.current * SCALE &&
+          sprite.y < SCALED_Y_POSITION + BOAT_WIDTH * SCALE &&
+          sprite.y + sprite.height > SCALED_Y_POSITION;
 
         if (isCollidingWithBoat) {
           sprites.current.splice(i, 1);
@@ -203,15 +229,7 @@ export const Game = () => {
     animationRef.current = requestAnimationFrame(gameLoop);
 
     setInterval(() => {
-      const sprite = {
-        x: Math.random() * canvas.width - SPRITE_WIDTH,
-        y: TOP_OF_SCREEN,
-        speed: SPRITE_SPEED,
-        width: SPRITE_WIDTH,
-        height: SPRITE_HEIGHT,
-        image: new Image(),
-        type: Sprite.PIRATE,
-      };
+      const sprite = initSprite();
       const selectedSprite =
         Object.keys(SPRITES_LIST)[Math.floor(Math.random() * SPRITES_LENGTH)];
       sprite.image.src = selectedSprite;
@@ -232,6 +250,11 @@ export const Game = () => {
   }, [gameSlice.isGameOver]);
 
   useEffect(() => {
+    screenWidthRef.current = screenWidth;
+    screenScaleRef.current = screenScale;
+  }, [screenWidth]);
+
+  useEffect(() => {
     if (gameSlice.gameTimer === 0) {
       gameSlice.setGameOver(true);
       screenSlice.setScreenState(ScreenState.GAME_OVER);
@@ -243,8 +266,8 @@ export const Game = () => {
     <canvas
       id={'gameCanvas'}
       ref={canvasRef}
-      width={SCREEN_WIDTH}
-      height={window.innerHeight}
+      width={screenWidth}
+      height={screenHeight}
     />
   );
 };
