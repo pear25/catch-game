@@ -7,14 +7,10 @@ import {
   BOAT_WIDTH,
   BoatDirection,
   DECELERATION_RATE,
-  DISTANCE_FROM_BOTTOM,
   INITIAL_POSITION,
   MAX_SPEED,
   MovementKeys,
   SCALED_Y_POSITION,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-  Y_POSITION,
 } from '../constants/Boat.constants';
 import {
   SPRITES_LENGTH,
@@ -133,17 +129,23 @@ export const Game = () => {
     boatSprite.onload = () => renderImage();
 
     const handleStartBoatMovement = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case MovementKeys.ARROW_LEFT:
-          direction.current = BoatDirection.LEFT;
-          lastPressed.current = BoatDirection.LEFT;
-          break;
-        case MovementKeys.ARROW_RIGHT:
-          direction.current = BoatDirection.RIGHT;
-          lastPressed.current = BoatDirection.RIGHT;
-          break;
-        default:
-          break;
+      const leftKeys = [
+        MovementKeys.ARROW_LEFT,
+        MovementKeys.KEY_A,
+        MovementKeys.CAPS_KEY_A,
+      ];
+      const rightKeys = [
+        MovementKeys.ARROW_RIGHT,
+        MovementKeys.KEY_D,
+        MovementKeys.CAPS_KEY_D,
+      ];
+
+      if (leftKeys.includes(event.key as MovementKeys)) {
+        direction.current = BoatDirection.LEFT;
+        lastPressed.current = BoatDirection.LEFT;
+      } else if (rightKeys.includes(event.key as MovementKeys)) {
+        direction.current = BoatDirection.RIGHT;
+        lastPressed.current = BoatDirection.RIGHT;
       }
     };
 
@@ -255,7 +257,7 @@ export const Game = () => {
   }, [screenWidth]);
 
   useEffect(() => {
-    if (gameSlice.gameTimer === 0) {
+    if (gameSlice.gameTimer === 59) {
       gameSlice.setGameOver(true);
       screenSlice.setScreenState(ScreenState.GAME_OVER);
       gameSlice.resetTimer();

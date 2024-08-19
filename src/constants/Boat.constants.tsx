@@ -18,6 +18,10 @@ export const BOAT_IMAGE = '/images/boat.png';
 export enum MovementKeys {
   ARROW_LEFT = 'ArrowLeft',
   ARROW_RIGHT = 'ArrowRight',
+  KEY_A = 'a',
+  KEY_D = 'D',
+  CAPS_KEY_A = 'A',
+  CAPS_KEY_D = 'd',
 }
 
 export enum BoatDirection {

@@ -12,6 +12,11 @@ export default {
         roboto: ['Roboto', 'sans-serif'],
         jersey: ['Jersey 10', 'serif'],
       },
+      fontSize: {
+        header2xs: '0.8rem',
+        '2xs': '0.7rem',
+        '3xs': '0.45rem',
+      },
     },
   },
   plugins: [require('tailwind-scrollbar-hide')],

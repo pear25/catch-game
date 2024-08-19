@@ -3,6 +3,7 @@ import { FullScreenLayout } from '../layouts/FullScreen.layout';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
 
 export const MainMenu = () => {
+  const titles = ['Pirates', '&', 'Plumbers'];
   const screenSlice = useScreenSlice();
 
   const changeScreen = (newScreen: ScreenState) => {
@@ -13,7 +14,11 @@ export const MainMenu = () => {
     <FullScreenLayout>
       <div className="flex flex-col gap-4 justify-center items-center h-screen font-jersey">
         <div className="mb-8">
-          <h1 className="font-jersey">SandboxVR Game</h1>
+          {titles.map((title, index) => (
+            <h1 key={index} className="font-jersey px-10 rounded-lg">
+              {title}
+            </h1>
+          ))}
         </div>
         <Button
           text={'Start Game'}

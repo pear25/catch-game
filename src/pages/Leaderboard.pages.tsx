@@ -15,15 +15,27 @@ export const Leaderboard = () => {
     screenSlice.setScreenState(ScreenState.IN_GAME);
   };
 
+  const headerFields = ['RANK', 'NAME', 'SCORE'];
+
   console.log(userScores);
   return (
     <>
-      <div className="flex flex-col gap-4 h-screen justify-center items-center font-jersey">
-        <div className="bg-slate-800 bg-opacity-75 backdrop-blur-lg flex flex-col gap-4 rounded-lg overflow-scroll overflow-x-hidden h-4/5 scrollbar-hide min-w-[30svw]">
+      <div className="flex flex-col gap-4 h-screen justify-center items-center font-jersey px-8 md:text-md text-xs">
+        <div className="bg-slate-800 bg-opacity-75 backdrop-blur-lg flex flex-col gap-4 rounded-lg overflow-scroll overflow-x-hidden h-4/5 scrollbar-hide">
           <div className="sticky top-0 bg-opacity-100 bg-slate-800  backdrop-blur-lg z-10 flex flex-row justify-between px-8 py-2 text-2xl">
-            <div>RANK</div>
+            {headerFields.map((title, index) => (
+              <div
+                key={index}
+                className="md:text-md text-xs flex justify-center items-center"
+              >
+                {title}
+              </div>
+            ))}
+            {/* <div className="">
+              RANK
+            </div>
             <div>NAME</div>
-            <div>SCORE</div>
+            <div>SCORE</div> */}
           </div>
           {isLoading ? (
             <Spinner />
