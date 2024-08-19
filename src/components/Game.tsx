@@ -33,6 +33,7 @@ import { useScoreSlice } from '../store/score.store';
 import { useGameSlice } from '../store/game.store';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
 import { useScreenWidth } from '../hooks/useGetScreenSize';
+import { MobileControl } from './MobileControl';
 
 type PirateType = {
   x: number;
@@ -68,6 +69,19 @@ export const Game = () => {
   const playAudio = (audioUrl: string) => {
     const audio = new Audio(audioUrl);
     audio.play();
+  };
+
+  const handleKeyPress = (left: boolean, right: boolean) => {
+    if (left) {
+      direction.current = BoatDirection.LEFT;
+      lastPressed.current = BoatDirection.LEFT;
+    } else if (right) {
+      direction.current = BoatDirection.RIGHT;
+      lastPressed.current = BoatDirection.RIGHT;
+    } else {
+      direction.current = BoatDirection.NONE;
+      speed.current *= DECELERATION_RATE;
+    }
   };
 
   const initSprite = () => {
@@ -265,11 +279,14 @@ export const Game = () => {
   }, [gameSlice.gameTimer]);
 
   return (
-    <canvas
-      id={'gameCanvas'}
-      ref={canvasRef}
-      width={screenWidth}
-      height={screenHeight}
-    />
+    <>
+      <canvas
+        id={'gameCanvas'}
+        ref={canvasRef}
+        width={screenWidth}
+        height={screenHeight}
+      />
+      <MobileControl onKeyPress={handleKeyPress} />
+    </>
   );
 };

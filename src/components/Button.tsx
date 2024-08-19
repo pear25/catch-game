@@ -19,7 +19,7 @@ export const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`${colorClasses[variant]} text-white py-2 px-4 rounded ${className}`}
+      className={`${colorClasses[variant]} text-white md:py-2 md:px-4 rounded ${className}`}
     >
       {text}
     </button>
