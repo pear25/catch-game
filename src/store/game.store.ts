@@ -6,6 +6,8 @@ type GameSlice = {
   isGameOver: boolean;
   setGameOver: (isGameOver: boolean) => void;
   resetTimer: () => void;
+  hasCompletedTutorial: boolean;
+  setHasCompletedTutorial: () => void;
 };
 
 const createGameSlice: StateCreator<GameSlice> = (set, get) => ({
@@ -19,6 +21,10 @@ const createGameSlice: StateCreator<GameSlice> = (set, get) => ({
   },
   resetTimer: () => {
     set(() => ({ gameTimer: 60 }));
+  },
+  hasCompletedTutorial: false,
+  setHasCompletedTutorial: () => {
+    set(() => ({ hasCompletedTutorial: true }));
   },
 });
 

@@ -1,4 +1,3 @@
-// TODO: Add scale for different screen sizes
 export const DISTANCE_FROM_BOTTOM = 20;
 export const BOAT_WIDTH = 144;
 export const BOAT_HEIGHT = 160.5;

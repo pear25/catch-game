@@ -4,6 +4,7 @@ import { GameOver } from './GameOver.pages';
 import { InGame } from './InGame.pages';
 import { Leaderboard } from './Leaderboard.pages';
 import { MainMenu } from './MainMenu.pages';
+import { Tutorial } from './Tutorial.pages';
 
 export const UIView = () => {
   const wrapInFullScreenLayout = (children: React.ReactNode) => {
@@ -20,6 +21,8 @@ export const UIView = () => {
       return wrapInFullScreenLayout(<GameOver />);
     case ScreenState.LEADERBOARD:
       return wrapInFullScreenLayout(<Leaderboard />);
+    case ScreenState.TUTORIAL:
+      return wrapInFullScreenLayout(<Tutorial />);
 
     default:
       return wrapInFullScreenLayout(<MainMenu />);
