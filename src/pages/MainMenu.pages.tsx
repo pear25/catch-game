@@ -1,5 +1,4 @@
 import { Button } from '../components/Button';
-import { FullScreenLayout } from '../layouts/FullScreen.layout';
 import { useGameSlice } from '../store/game.store';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
 
