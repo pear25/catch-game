@@ -12,7 +12,7 @@ export const InGame = () => {
   useEffect(() => {
     gameSlice.setGameOver(false);
     gameSlice.resetTimer();
-    scoreSlice.setScore(0);
+    scoreSlice.resetScore();
   }, []);
 
   return (
