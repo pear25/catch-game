@@ -4,6 +4,8 @@ type FullScreenLayoutProps = {
 
 export const FullScreenLayout = ({ children }: FullScreenLayoutProps) => {
   return (
-    <div className="bg-main-menu bg-cover h-screen w-screen">{children}</div>
+    <div className="bg-main-menu bg-cover h-screen w-screen font-bungee-tint">
+      {children}
+    </div>
   );
 };

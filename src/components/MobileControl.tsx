@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from 'react-icons/bs';
 
-export const MobileControl = ({ onKeyPress }) => {
+type MobileControlProps = {
+  onKeyPress: (leftPressed: boolean, rightPressed: boolean) => void;
+};
+
+export const MobileControl = ({ onKeyPress }: MobileControlProps) => {
   const [leftPressed, setLeftPressed] = useState<boolean>(false);
   const [rightPressed, setRightPressed] = useState<boolean>(false);
 
@@ -27,7 +31,7 @@ export const MobileControl = ({ onKeyPress }) => {
   };
   return (
     <>
-      {!isMobile && (
+      {isMobile && (
         <>
           <div
             className="absolute bottom-10 left-3 text-4xl"

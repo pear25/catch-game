@@ -12,8 +12,8 @@ export const Button = ({
   className,
 }: ButtonProps) => {
   const colorClasses = {
-    primary: 'bg-blue-500 hover:bg-blue-700',
-    secondary: 'bg-slate-500 hover:bg-slate-700',
+    primary: 'bg-blue-500 hover:bg-blue-600',
+    secondary: 'bg-yellow-500 hover:bg-yellow-600',
   };
 
   return (

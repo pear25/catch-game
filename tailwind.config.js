@@ -9,8 +9,8 @@ export default {
         'sandbox-pic': "url('./images/bg2.png')",
       },
       fontFamily: {
-        roboto: ['Roboto', 'sans-serif'],
-        jersey: ['Jersey 10', 'serif'],
+        'bungee-tint': ['Bungee Tint', 'sans-serif'],
+        'new-amsterdam': ['New Amsterdam', 'sans-serif'],
       },
       fontSize: {
         header2xs: '0.8rem',

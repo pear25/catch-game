@@ -23,10 +23,12 @@ export const MainMenu = () => {
         <Button
           text={'Start Game'}
           onClick={() => changeScreen(ScreenState.IN_GAME)}
+          className="px-4 py-2"
         />
         <Button
           variant="secondary"
           text={'Leaderboards'}
+          className="px-4 py-2"
           onClick={() => changeScreen(ScreenState.LEADERBOARD)}
         />
       </div>

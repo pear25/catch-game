@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AiFillMuted, AiFillSound } from 'react-icons/ai';
+import { PiSpeakerHighFill, PiSpeakerSimpleXFill } from 'react-icons/pi';
 
 export const AudioManager = () => {
   const [allowAudio, setAllowAudio] = useState(false);
@@ -21,9 +21,9 @@ export const AudioManager = () => {
       onClick={() => setAllowAudio((prev) => !prev)}
     >
       {allowAudio ? (
-        <AiFillSound className="fill-black" />
+        <PiSpeakerHighFill className="fill-white" />
       ) : (
-        <AiFillMuted className="fill-black" />
+        <PiSpeakerSimpleXFill className="fill-white" />
       )}
     </button>
   );
