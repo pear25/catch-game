@@ -13,7 +13,6 @@ export const InGame = () => {
     gameSlice.setGameOver(false);
     gameSlice.resetTimer();
     scoreSlice.setScore(0);
-    // audio.play();
   }, []);
 
   return (
