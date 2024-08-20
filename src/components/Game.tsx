@@ -1,26 +1,12 @@
 import { useEffect, useRef } from 'react';
 import {
-  ACCELERATION_RATE,
   BASELINE_SCREEN_WIDTH,
-  BOAT_HEIGHT,
   BOAT_IMAGE,
-  BOAT_WIDTH,
   BoatDirection,
   DECELERATION_RATE,
   INITIAL_POSITION,
-  MAX_SPEED,
-  MovementKeys,
-  SCALED_Y_POSITION,
 } from '../constants/Boat.constants';
-import {
-  SPRITES_LENGTH,
-  SPRITES_LIST,
-  SPRITE_HEIGHT,
-  SPRITE_SPEED,
-  SPRITE_WIDTH,
-  Sprite,
-  TOP_OF_SCREEN,
-} from '../constants/Pirate.constants';
+import { Sprite } from '../constants/Pirate.constants';
 import {
   BASE_PIRATE_SPAWN_TIME,
   RANDOM_PIRATE_SPAWN_TIME,
@@ -30,8 +16,7 @@ import { useGameSlice } from '../store/game.store';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
 import { useScreenWidth } from '../hooks/useGetScreenSize';
 import { MobileControl } from './MobileControl';
-import { useGetWindowFocus } from '../hooks/useGetWindowFocus';
-import { gameOver, initSprite, renderBoatImage } from '../utils/Game.utils';
+import { gameOver, renderBoatImage } from '../utils/Game.utils';
 import {
   handleBoatAcceleration,
   handleBoatCollisionLogic,
@@ -61,7 +46,6 @@ export const Game = () => {
   const screenSlice = useScreenSlice();
 
   const { screenWidth, screenScale, screenHeight } = useScreenWidth();
-  const { isWindowFocused } = useGetWindowFocus();
   const screenWidthRef = useRef(screenWidth);
   const screenScaleRef = useRef(screenScale);
 
@@ -160,13 +144,15 @@ export const Game = () => {
   }, [gameSlice.gameTimer]);
 
   useEffect(() => {
-    // if (!gameSlice.isGamePaused) {
-    //   gameSlice.pauseGame();
-    //   cancelAnimationFrame(animationRef.current);
-    //   cancelAnimationFrame(loopRef.current);
-    //   return;
-    // }
-    // gameSlice.resumeGame();
+    if (gameSlice.isGamePaused) {
+      cancelAnimationFrame(loopRef.current);
+      cancelAnimationFrame(animationRef.current);
+      return;
+    }
+    if (!gameSlice.isGamePaused) {
+      animationRef.current = requestAnimationFrame(gameLoop);
+      return;
+    }
   }, [gameSlice.isGamePaused]);
 
   return (

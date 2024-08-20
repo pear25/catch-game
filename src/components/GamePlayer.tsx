@@ -15,7 +15,7 @@ export const GamePlayer = () => {
 
   return (
     <button
-      className="absolute top-0.5 right-10 p-4 bg-transparent"
+      className="absolute top-0.5 right-10 p-4 bg-transparent z-50"
       onClick={() => {
         toggleGameState();
       }}

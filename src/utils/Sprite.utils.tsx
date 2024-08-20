@@ -33,11 +33,11 @@ export const handleCollision = (
     sprites.current.splice(i, 1);
     if (sprite.type === Sprite.PIRATE) {
       playAudio(PLUS_AUDIO);
-      scoreSlice.setScore(scoreSlice.score + PIRATE_SCORE);
+      scoreSlice.addScore(PIRATE_SCORE);
     }
     if (sprite.type === Sprite.ENEMY) {
       playAudio(MINUS_AUDIO);
-      scoreSlice.setScore(scoreSlice.score + ENEMY_SCORE);
+      scoreSlice.addScore(ENEMY_SCORE);
     }
   }
 };

@@ -4,6 +4,7 @@ import { Scoreboard } from '../components/Scoreboard';
 import { useGameSlice } from '../store/game.store';
 import { useScoreSlice } from '../store/score.store';
 import { GamePlayer } from '../components/GamePlayer';
+import { PauseOverlay } from '../components/PauseOverlay';
 
 export const InGame = () => {
   const gameSlice = useGameSlice();
@@ -17,6 +18,7 @@ export const InGame = () => {
 
   return (
     <>
+      <PauseOverlay />
       <Game />
       <GamePlayer />
       {!gameSlice.isGameOver && <Scoreboard />}

@@ -17,7 +17,7 @@ export const AudioManager = () => {
 
   return (
     <button
-      className="absolute top-0.5 right-1 p-4 bg-transparent"
+      className="absolute top-0.5 right-1 p-4 bg-transparent z-50"
       onClick={() => setAllowAudio((prev) => !prev)}
     >
       {allowAudio ? (
