@@ -1,6 +1,6 @@
 import { StateCreator, create } from 'zustand';
 
-type ScoreSlice = {
+export type ScoreSlice = {
   score: number;
   setScore: (newScore: number) => void;
 };
