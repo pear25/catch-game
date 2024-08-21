@@ -9,7 +9,7 @@ export default {
         'sandbox-pic': "url('/images/bg2.png')",
       },
       fontFamily: {
-        'bungee-tint': ['Bungee Tint', 'sans-serif'],
+        'bungee-tint': ['Bungee Tint', 'New Amsterdam', 'sans-serif'],
         'new-amsterdam': ['New Amsterdam', 'sans-serif'],
       },
       fontSize: {
