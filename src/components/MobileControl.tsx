@@ -34,7 +34,7 @@ export const MobileControl = ({ onKeyPress }: MobileControlProps) => {
       {isMobile && (
         <>
           <div
-            className="absolute bottom-10 left-3 text-4xl"
+            className="absolute bottom-10 left-3 text-4xl select-none"
             onTouchStart={handleTouchStartLeft}
             onTouchEnd={handleTouchEndLeft}
           >
@@ -43,7 +43,7 @@ export const MobileControl = ({ onKeyPress }: MobileControlProps) => {
           <div
             onTouchStart={handleTouchStartRight}
             onTouchEnd={handleTouchEndRight}
-            className="absolute bottom-10 right-3 text-4xl"
+            className="absolute bottom-10 right-3 text-4xl select-none"
           >
             <BsArrowRightCircleFill />
           </div>

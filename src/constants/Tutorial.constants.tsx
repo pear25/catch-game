@@ -5,7 +5,7 @@ export const paragraphOne = [
 ];
 
 export const paragraphTwo = [
-  'Avoid the enemies, as they will steal your crew members away!',
+  'Avoid the plumbers, as they will steal your crew members away!',
 ];
 
 export const pirates = [
@@ -29,11 +29,11 @@ export const pirates = [
 export const enemies = [
   {
     img: '/images/e1.png',
-    alt: 'Enemy 1',
+    alt: 'Plumber 1',
   },
   {
     img: '/images/e2.png',
-    alt: 'Enemy 2',
+    alt: 'Plumber 2',
   },
 ];
 

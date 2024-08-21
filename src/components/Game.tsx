@@ -107,10 +107,6 @@ export const Game = () => {
     }
     animationRef.current = requestAnimationFrame(gameLoop);
 
-    setInterval(() => {
-      addSpriteToCanvas(screenWidthRef, SCALE, sprites);
-    }, Math.random() * RANDOM_PIRATE_SPAWN_TIME + BASE_PIRATE_SPAWN_TIME);
-
     window.addEventListener('keydown', (event) => {
       handleStartBoatMovement(event, direction, lastPressed);
     });
@@ -129,6 +125,17 @@ export const Game = () => {
       });
     };
   }, [gameSlice.isGameOver]);
+
+  useEffect(() => {
+    let spriteSpawner: number;
+    if (!gameSlice.isGamePaused) {
+      spriteSpawner = setInterval(() => {
+        addSpriteToCanvas(screenWidthRef, SCALE, sprites);
+      }, Math.random() * RANDOM_PIRATE_SPAWN_TIME + BASE_PIRATE_SPAWN_TIME);
+    }
+
+    return () => clearInterval(spriteSpawner);
+  }, [gameSlice.isGamePaused]);
 
   useEffect(() => {
     screenWidthRef.current = screenWidth;
