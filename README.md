@@ -4,6 +4,7 @@ Clone the repo & install dependencies
 
 ```
 git clone https://github.com/pear25/catch-game.git
+cd catch-game
 npm install
 ```
 
