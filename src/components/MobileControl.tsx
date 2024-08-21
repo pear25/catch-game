@@ -34,9 +34,11 @@ export const MobileControl = ({ onKeyPress }: MobileControlProps) => {
       {isMobile && (
         <>
           <button
-            className="absolute bottom-10 left-3 text-4xl select-none bg-transparent"
+            className="absolute bottom-10 left-3 text-4xl select-none bg-transparent z-50"
             onTouchStart={handleTouchStartLeft}
             onTouchEnd={handleTouchEndLeft}
+            onContextMenu={(e) => e.preventDefault()}
+            onContextMenuCapture={(e) => e.preventDefault()}
             disabled
           >
             <BsArrowLeftCircleFill className="select-none" />
@@ -44,7 +46,9 @@ export const MobileControl = ({ onKeyPress }: MobileControlProps) => {
           <button
             onTouchStart={handleTouchStartRight}
             onTouchEnd={handleTouchEndRight}
-            className="absolute bottom-10 right-3 text-4xl select-none bg-transparent"
+            onContextMenuCapture={(e) => e.preventDefault()}
+            onContextMenu={(e) => e.preventDefault()}
+            className="absolute bottom-10 right-3 text-4xl select-none bg-transparent z-50"
             disabled
           >
             <BsArrowRightCircleFill className="select-none" />
