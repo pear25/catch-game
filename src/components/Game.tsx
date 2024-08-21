@@ -42,8 +42,9 @@ export type PirateType = {
 
 export const Game = () => {
   const scoreSlice = useScoreSlice();
-  const gameSlice = useGameSlice();
-  const screenSlice = useScreenSlice();
+  const { isGameOver, isGamePaused, gameTimer, setGameOver, resetTimer } =
+    useGameSlice();
+  const { setScreenState } = useScreenSlice();
 
   const { screenWidth, screenScale, screenHeight } = useScreenWidth();
   const screenWidthRef = useRef(screenWidth);
@@ -81,7 +82,7 @@ export const Game = () => {
 
   const gameLoop = () => {
     if (!canvas || !context) return;
-    if (gameSlice.isGameOver) {
+    if (isGameOver) {
       gameOver(context, canvas, loopRef, animationRef);
     }
 
@@ -124,18 +125,18 @@ export const Game = () => {
         handleStopBoatMovement(event, direction);
       });
     };
-  }, [gameSlice.isGameOver]);
+  }, [isGameOver]);
 
   useEffect(() => {
     let spriteSpawner: number;
-    if (!gameSlice.isGamePaused) {
+    if (!isGamePaused) {
       spriteSpawner = setInterval(() => {
         addSpriteToCanvas(screenWidthRef, SCALE, sprites);
       }, Math.random() * RANDOM_PIRATE_SPAWN_TIME + BASE_PIRATE_SPAWN_TIME);
     }
 
     return () => clearInterval(spriteSpawner);
-  }, [gameSlice.isGamePaused]);
+  }, [isGamePaused]);
 
   useEffect(() => {
     screenWidthRef.current = screenWidth;
@@ -143,24 +144,24 @@ export const Game = () => {
   }, [screenWidth]);
 
   useEffect(() => {
-    if (gameSlice.gameTimer === 0) {
-      gameSlice.setGameOver(true);
-      screenSlice.setScreenState(ScreenState.GAME_OVER);
-      gameSlice.resetTimer();
+    if (gameTimer === 0) {
+      setGameOver(true);
+      setScreenState(ScreenState.GAME_OVER);
+      resetTimer();
     }
-  }, [gameSlice.gameTimer]);
+  }, [gameTimer]);
 
   useEffect(() => {
-    if (gameSlice.isGamePaused) {
+    if (isGamePaused) {
       cancelAnimationFrame(loopRef.current);
       cancelAnimationFrame(animationRef.current);
       return;
     }
-    if (!gameSlice.isGamePaused) {
+    if (!isGamePaused) {
       animationRef.current = requestAnimationFrame(gameLoop);
       return;
     }
-  }, [gameSlice.isGamePaused]);
+  }, [isGamePaused]);
 
   return (
     <>
