@@ -7,12 +7,12 @@ import { MainMenu } from './MainMenu.pages';
 import { Tutorial } from './Tutorial.pages';
 
 export const UIView = () => {
+  const { screenState } = useScreenSlice();
   const wrapInFullScreenLayout = (children: React.ReactNode) => {
     return <FullScreenLayout>{children}</FullScreenLayout>;
   };
 
-  const currentView = useScreenSlice((state) => state.screenState);
-  switch (currentView) {
+  switch (screenState) {
     case ScreenState.MAIN_MENU:
       return wrapInFullScreenLayout(<MainMenu />);
     case ScreenState.IN_GAME:

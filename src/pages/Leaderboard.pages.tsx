@@ -7,17 +7,16 @@ import { Button } from '../components/Button';
 
 export const Leaderboard = () => {
   const { data: userScores, isLoading } = useGetUserScore();
-  const screenSlice = useScreenSlice();
+  const { setScreenState } = useScreenSlice();
   const backToMainMenu = () => {
-    screenSlice.setScreenState(ScreenState.MAIN_MENU);
+    setScreenState(ScreenState.MAIN_MENU);
   };
   const playAgain = () => {
-    screenSlice.setScreenState(ScreenState.IN_GAME);
+    setScreenState(ScreenState.IN_GAME);
   };
 
   const headerFields = ['RANK', 'NAME', 'SCORE'];
 
-  console.log(userScores);
   return (
     <>
       {isLoading ? (

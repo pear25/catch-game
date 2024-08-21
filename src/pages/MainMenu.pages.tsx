@@ -4,13 +4,13 @@ import { ScreenState, useScreenSlice } from '../store/screen.store';
 
 export const MainMenu = () => {
   const titles = ['Pirates', '&', 'Plumbers'];
-  const screenSlice = useScreenSlice();
-  const gameSlice = useGameSlice();
+  const { setScreenState } = useScreenSlice();
+  const { hasCompletedTutorial } = useGameSlice();
   const changeScreen = (newScreen: ScreenState) => {
-    screenSlice.setScreenState(newScreen);
+    setScreenState(newScreen);
   };
   const playOrSeeTutorial = () => {
-    if (gameSlice.hasCompletedTutorial) {
+    if (hasCompletedTutorial) {
       return changeScreen(ScreenState.IN_GAME);
     }
     changeScreen(ScreenState.TUTORIAL);

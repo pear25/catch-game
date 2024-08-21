@@ -10,12 +10,12 @@ import { useGameSlice } from '../store/game.store';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
 
 export const Tutorial = () => {
-  const screenSlice = useScreenSlice();
-  const gameSlice = useGameSlice();
+  const { setScreenState } = useScreenSlice();
+  const { setHasCompletedTutorial } = useGameSlice();
 
   const handleOkTutorial = () => {
-    gameSlice.setHasCompletedTutorial();
-    screenSlice.setScreenState(ScreenState.IN_GAME);
+    setHasCompletedTutorial();
+    setScreenState(ScreenState.IN_GAME);
   };
 
   return (

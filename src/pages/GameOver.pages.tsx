@@ -3,10 +3,10 @@ import { useUserScoreForm } from '../hooks/useScoreForm';
 import { ScreenState, useScreenSlice } from '../store/screen.store';
 
 export const GameOver = () => {
-  const screenSlice = useScreenSlice();
+  const { setScreenState } = useScreenSlice();
   const { register, onSubmit, isLoadingPost, errors } = useUserScoreForm();
   const navigateTo = (screen: ScreenState) => {
-    screenSlice.setScreenState(screen);
+    setScreenState(screen);
   };
 
   return (

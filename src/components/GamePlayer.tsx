@@ -2,14 +2,14 @@ import { FaPause, FaPlay } from 'react-icons/fa';
 import { useGameSlice } from '../store/game.store';
 
 export const GamePlayer = () => {
-  const gameSlice = useGameSlice();
+  const { isGamePaused, resumeGame, pauseGame } = useGameSlice();
 
   const toggleGameState = () => {
-    if (gameSlice.isGamePaused) {
-      return gameSlice.resumeGame();
+    if (isGamePaused) {
+      return resumeGame();
     }
-    if (!gameSlice.isGamePaused) {
-      return gameSlice.pauseGame();
+    if (!isGamePaused) {
+      return pauseGame();
     }
   };
 
@@ -20,7 +20,7 @@ export const GamePlayer = () => {
         toggleGameState();
       }}
     >
-      {gameSlice.isGamePaused ? (
+      {isGamePaused ? (
         <FaPlay className="fill-white" />
       ) : (
         <FaPause className="fill-white" />

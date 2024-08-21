@@ -10,8 +10,8 @@ export type UserScoreFields = {
 };
 
 export const useUserScoreForm = () => {
-  const scoreSlice = useScoreSlice();
-  const screenSlice = useScreenSlice();
+  const { score } = useScoreSlice();
+  const { setScreenState } = useScreenSlice();
   const {
     handleSubmit,
     register,
@@ -20,12 +20,12 @@ export const useUserScoreForm = () => {
   } = useForm<UserScoreFields>({
     defaultValues: {
       name: '',
-      score: scoreSlice.score,
+      score: score,
     },
     mode: 'onChange',
   });
 
-  const onSuccess = () => screenSlice.setScreenState(ScreenState.LEADERBOARD);
+  const onSuccess = () => setScreenState(ScreenState.LEADERBOARD);
   const onError = () => {
     toast.error('Failed to post score', {
       duration: 4000,
