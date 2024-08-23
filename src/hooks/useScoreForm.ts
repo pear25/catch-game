@@ -17,6 +17,7 @@ export const useUserScoreForm = () => {
     register,
     formState: { errors },
     getValues,
+    setError,
   } = useForm<UserScoreFields>({
     defaultValues: {
       name: '',
@@ -37,6 +38,10 @@ export const useUserScoreForm = () => {
     usePostUserScore(onSuccess, onError);
 
   const onSubmit = handleSubmit(async () => {
+    if (!getValues().name.trim()) {
+      setError('name', { message: 'Name is required' });
+      return;
+    }
     void postUserScore(getValues());
   });
   return { register, errors, onSubmit, isLoadingPost };
